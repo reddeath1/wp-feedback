@@ -7,14 +7,13 @@
  */
 wp_head();
 ?>
-<!--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
-<!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>-->
+
 <div class="container">
     <div class="row">
 
         <section class="content">
             <h1>Feed Back</h1>
-            <div class="col-sm-9 col-md-offset-1">
+            <div class="col-sm-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="pull-right">
