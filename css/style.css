@@ -5,6 +5,12 @@ body {
     font-family: 'Open Sans', sans-serif;
     color: #353535;
 }
+
+.row{
+    width: 100%;
+    float: left;
+}
+
 .content h1 {
     text-align: center;
 }
@@ -106,15 +112,25 @@ body {
 }
 .table-filter .media-photo {
     width: 35px;
+    margin-top: 16px;
 }
+
+
 .table-filter .media-body {
     display: block;
-    /* Had to use this style to force the div to expand (wasn't necessary with my bootstrap version 3.3.6) */
+    float: right;
+    width: 94%;
+    margin-top: 25px;
 }
 .table-filter .media-meta {
     font-size: 11px;
     color: #999;
 }
+
+.pull-left{
+    margin-top: 15px;
+}
+
 .table-filter .media .title {
     color: #2BBCDE;
     font-size: 14px;
@@ -126,13 +142,13 @@ body {
     font-size: .8em;
     margin-right: 20px;
 }
-.table-filter .media .title span.pagado {
+.table-filter .media .title span.approved {
     color: #5cb85c;
 }
-.table-filter .media .title span.pendiente {
+.table-filter .media .title span.pending {
     color: #f0ad4e;
 }
-.table-filter .media .title span.cancelado {
+.table-filter .media .title span.cancelled {
     color: #d9534f;
 }
 .table-filter .media .summary {
