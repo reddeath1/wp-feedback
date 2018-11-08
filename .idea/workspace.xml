@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bfa06ae4-ff0a-441d-9c29-3907dd6d815d" name="Default" comment="feedback">
-      <change afterPath="$PROJECT_DIR$/includes/Ajax.php" afterDir="false" />
+    <list default="true" id="bfa06ae4-ff0a-441d-9c29-3907dd6d815d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/feedback.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/js.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/js.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/Home.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/Home.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="feedback.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="feedback.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/feedback.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="574">
-              <caret line="245" column="41" lean-forward="true" selection-start-line="245" selection-start-column="41" selection-end-line="245" selection-end-column="41" />
+            <state relative-caret-position="493">
+              <caret line="239" column="84" selection-start-line="239" selection-start-column="84" selection-end-line="239" selection-end-column="84" />
               <folding>
                 <element signature="e#6#297#0#PHP" expanded="true" />
                 <element signature="e#3101#3245#0#HTML" expanded="true" />
@@ -37,11 +33,7 @@
                 <element signature="n#div#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
                 <element signature="n#td#1;n#tr#0;n#!!top" expanded="true" />
                 <element signature="n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
-                <element signature="n#td#2;n#tr#0;n#!!top" expanded="true" />
-                <element signature="n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
                 <element signature="n#a#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
-                <element signature="n#div#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
-                <element signature="n#h4#0;n#div#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
                 <element signature="n#td#3;n#tr#0;n#!!top" expanded="true" />
                 <element signature="n#ul#0;n#!!top" expanded="true" />
                 <element signature="n#li#0;n#ul#0;n#!!top" expanded="true" />
@@ -52,14 +44,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Home.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Home.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/Home.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="32" column="61" selection-start-line="32" selection-start-column="61" selection-end-line="32" selection-end-column="61" />
+            <state relative-caret-position="137">
+              <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
               <folding>
                 <element signature="e#0#5#0#PHP" expanded="true" />
-                <element signature="e#1258#1263#0#PHP" expanded="true" />
+                <element signature="e#295#5397#0#HTML" expanded="true" />
+                <element signature="e#351#5088#0#HTML" expanded="true" />
+                <element signature="e#405#5065#0#HTML" expanded="true" />
+                <element signature="e#1128#5038#0#HTML" expanded="true" />
+                <element signature="e#1186#5007#0#HTML" expanded="true" />
+                <element signature="e#1253#4970#0#HTML" expanded="true" />
+                <element signature="e#1293#1298#0#PHP" expanded="true" />
                 <element signature="e#10920#10925#0#PHP" expanded="true" />
               </folding>
             </state>
@@ -130,9 +128,9 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/includes/Ajax.php" />
         <option value="$PROJECT_DIR$/js/js.js" />
-        <option value="$PROJECT_DIR$/views/Home.php" />
         <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/feedback.php" />
+        <option value="$PROJECT_DIR$/views/Home.php" />
       </list>
     </option>
   </component>
@@ -230,7 +228,7 @@
       <option name="presentableId" value="Default" />
       <updated>1541620641845</updated>
       <workItem from="1541620643605" duration="9254000" />
-      <workItem from="1541690025564" duration="23856000" />
+      <workItem from="1541690025564" duration="24606000" />
     </task>
     <task id="LOCAL-00001" summary="feedback">
       <created>1541629683582</created>
@@ -239,11 +237,25 @@
       <option name="project" value="LOCAL" />
       <updated>1541629683582</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added new methods">
+      <created>1541718549777</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1541718549777</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added new methods">
+      <created>1541719243114</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1541719243114</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33110000" />
+    <option name="totallyTimeSpent" value="33860000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="14" width="1696" height="1003" extended-state="0" />
@@ -279,7 +291,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feedback" />
-    <option name="LAST_COMMIT_MESSAGE" value="feedback" />
+    <MESSAGE value="added new methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="added new methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -305,11 +318,7 @@
             <element signature="n#div#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#td#1;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#td#2;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#a#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#h4#0;n#div#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#td#3;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#ul#0;n#!!top" expanded="true" />
             <element signature="n#li#0;n#ul#0;n#!!top" expanded="true" />
@@ -355,7 +364,13 @@
           <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
           <folding>
             <element signature="e#0#5#0#PHP" expanded="true" />
-            <element signature="e#1258#1263#0#PHP" expanded="true" />
+            <element signature="e#295#5397#0#HTML" expanded="true" />
+            <element signature="e#351#5088#0#HTML" expanded="true" />
+            <element signature="e#405#5065#0#HTML" expanded="true" />
+            <element signature="e#1128#5038#0#HTML" expanded="true" />
+            <element signature="e#1186#5007#0#HTML" expanded="true" />
+            <element signature="e#1253#4970#0#HTML" expanded="true" />
+            <element signature="e#1293#1298#0#PHP" expanded="true" />
             <element signature="e#10920#10925#0#PHP" expanded="true" />
           </folding>
         </state>
@@ -411,18 +426,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/Home.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="32" column="61" selection-start-line="32" selection-start-column="61" selection-end-line="32" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#5#0#PHP" expanded="true" />
-            <element signature="e#1258#1263#0#PHP" expanded="true" />
-            <element signature="e#10920#10925#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
@@ -432,8 +435,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/feedback.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="574">
-          <caret line="245" column="41" lean-forward="true" selection-start-line="245" selection-start-column="41" selection-end-line="245" selection-end-column="41" />
+        <state relative-caret-position="493">
+          <caret line="239" column="84" selection-start-line="239" selection-start-column="84" selection-end-line="239" selection-end-column="84" />
           <folding>
             <element signature="e#6#297#0#PHP" expanded="true" />
             <element signature="e#3101#3245#0#HTML" expanded="true" />
@@ -448,16 +451,30 @@
             <element signature="n#div#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#td#1;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#td#2;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#a#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#h4#0;n#div#0;n#div#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#td#3;n#tr#0;n#!!top" expanded="true" />
             <element signature="n#ul#0;n#!!top" expanded="true" />
             <element signature="n#li#0;n#ul#0;n#!!top" expanded="true" />
             <element signature="n#tr#0;n#!!top" expanded="true" />
             <element signature="n#td#0;n#tr#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/Home.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#5#0#PHP" expanded="true" />
+            <element signature="e#295#5397#0#HTML" expanded="true" />
+            <element signature="e#351#5088#0#HTML" expanded="true" />
+            <element signature="e#405#5065#0#HTML" expanded="true" />
+            <element signature="e#1128#5038#0#HTML" expanded="true" />
+            <element signature="e#1186#5007#0#HTML" expanded="true" />
+            <element signature="e#1253#4970#0#HTML" expanded="true" />
+            <element signature="e#1293#1298#0#PHP" expanded="true" />
+            <element signature="e#10920#10925#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
