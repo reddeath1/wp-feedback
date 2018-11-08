@@ -237,7 +237,7 @@ function get_feed_back($type = false){
                                                 <span class=\"media-meta pull-right\">$date</span>
                                                 <h4 class=\"title\">
                                                     $user
-                                                    <span class=\"pull-right approved\">($status)</span>
+                                                    <span class=\"pull-right $status\">($status)</span>
                                                 </h4>
                                                 <p class=\"summary\">$dp</p>
                                                 <p class=\"summary dep\">$fd</p>

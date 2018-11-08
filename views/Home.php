@@ -15,7 +15,8 @@ global $wpdb;
 
         <section class="content">
             <h1>Feed Back</h1>
-
+            <?php
+            print_r($wpdb);?>
             <div class="col-sm-12 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-body">
