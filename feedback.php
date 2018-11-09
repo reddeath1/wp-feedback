@@ -129,18 +129,15 @@ add_shortcode('wp_form','form');
 function db_install(){
     global $wpdb;
 
-  $sql = $wpdb->query("CREATE TABLE IF NOT EXISTS feedback(
-    id int(11) not null auto_increment,
-    fn_name varchar(255) not null,
-    ln_name varchar (255) not null ,
-    email varchar (255) not null,
-    phone_number varchar (255) null,
-    department varchar (255) null,
-    feedback text not null,
-    fd_date datetime not null default CURRENT_TIMESTAMP,
-    approved enum('0','1') not null default '0',
-    primary key(id)
-)");
+    $sql = $wpdb->query("CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `username` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `department` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `feedback` text COLLATE utf8_unicode_ci NOT NULL,
+  `approve` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 
     if($sql){
         set_transient( 'fx-admin-notice', true, 5 );
@@ -164,7 +161,7 @@ function fx_admin_notice_notice(){
 add_action( 'admin_notices', 'fx_admin_notice_notice' );
 function db_uninstall(){
     global $wpdb;
-   $wpdb->query("
+    $wpdb->query("
         DROP TABLE IF EXISTS feedback;
     ");
 
@@ -185,36 +182,38 @@ function fb_uninstall(){
 function get_feed_back($type = false){
     global $wpdb;
     $result = '';
-    $where = ($type) ? "WHERE approved = 1" : "";
+    $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC LIMIT 5" : "";
 
 
-    $sql = $wpdb->get_results("SELECT *,concat(fn_name,' ',ln_name) as username FROM feedback $where");
+    $sql = $wpdb->get_results("SELECT * FROM feedback $where");
 
     if($sql){
 
         foreach ($sql as $item) {
             $id = $item->id;
             $user = ucwords($item->username);
-            $fn = $item->fn_name;
-            $ln = $item->ln_name;
-            $pn = $item->phone_number;
+            $pn = $item->phone;
             $em = $item->email;
             $dp = ucwords($item->department);
             $fd = $item->feedback;
-            $date = $item->fd_date;
-            $approve =  $item->approved;
+            $date = date();//$item->fd_date;
+            $approve =  (int) $item->approve;
             $date = date("M d, Y",strtotime($date));
 
 
             if($type){
-                $result .= "<ul id=\"recentcomments\">
+                $result .= "
                             <li class=\"recentcomments\">
                             <span class=\"comment-author-link\">$user</span> - 
-                            <a >$fd</a></li>
-                            </ul>";
+                            <a >$fd</a></li>";
             }else{
 
                 $status = ($approve > 0) ? 'approved' : 'pending';
+
+                $action = "<span class='approved' style='color:green'><i class=\"glyphicon glyphicon-ok\"></i> Approve</span>";
+                if($approve > 0){
+                    $action = "";
+                }
 
                 $result .= "<tr data-status=\"$status\">
                                     <td>
@@ -223,8 +222,8 @@ function get_feed_back($type = false){
                                             <label for=\"checkbox$id\"></label>
                                         </div>
                                     </td>
-                                    <td>
                                         <a href=\"javascript:;\" class=\"star\">
+                                    <td>
                                             <i class=\"glyphicon glyphicon-star\"></i>
                                         </a>
                                     </td>
@@ -234,21 +233,39 @@ function get_feed_back($type = false){
                                                 <img src=\"https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg\" class=\"media-photo\">
                                             </a>
                                             <div class=\"media-body\">
-                                                <span class=\"media-meta pull-right\">$date</span>
+												
                                                 <h4 class=\"title\">
-                                                    $user
-                                                    <span class=\"pull-right $status\">($status)</span>
+                                                    $user 
+                                                <span class=\"media-meta pull-right\" style='margin-left:10px;'> $date</span>
+
+											<span class=\"pull-right $status\" style='font-size:16px;'>
+                                                <span class=\"pull-left$status\">($status)</span>
+                                                <span class='reply' style='color:green'><i class=\"glyphicon glyphicon-share\"></i> Reply</span> 
+                                                <span class='delete full-left' style='color:brown'><i class=\"glyphicon glyphicon-remove\"></i> Delete</span>
+                                                $action 
+                                            </span>
+                                                    
+
+												
                                                 </h4>
+$pn 
+							<span class='pull-right' style='margin-left:10px;'>
+                                    $em</span>
                                                 <p class=\"summary\">$dp</p>
                                                 <p class=\"summary dep\">$fd</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                    $pn $em
 </td>
                                 </tr>";
             }
+        }
+
+        if($type){
+            $result = "<ul id=\"recentcomments\">
+	$result
+</ul>";
         }
     }else{
         $result = 'No records found';
@@ -259,7 +276,7 @@ function get_feed_back($type = false){
                             </li>
                             </ul>";
         }else{
-            $result .= "<tr>
+            $result = "<tr>
                             <td>
                                 $result
                             </td>

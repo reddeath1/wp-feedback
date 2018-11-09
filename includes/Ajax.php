@@ -60,9 +60,8 @@ class Ajax{
 
 
             $sql = $this->db->insert('feedback',array(
-                'fn_name'=>$fn,
-                'ln_name'=>$ln,
-                'phone_number'=>$pn,
+                'username'=>$fn.' '.$ln,
+                'phone'=>$pn,
                 'email'=>$em,
                 'department'=>$dp,
                 'feedback'=>$fd));

@@ -22,7 +22,6 @@ global $wpdb;
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success btn-filter" data-target="approved">Approved</button>
                                 <button type="button" class="btn btn-warning btn-filter" data-target="pending">Pending</button>
-                                <button type="button" class="btn btn-danger btn-filter" data-target="cancelled">Deleted</button>
                                 <button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
                             </div>
                         </div>
