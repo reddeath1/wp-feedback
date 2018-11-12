@@ -129,15 +129,16 @@ add_shortcode('wp_form','form');
 function db_install(){
     global $wpdb;
 
-    $sql = $wpdb->query("CREATE TABLE `feedback` (
-  `id` int(11) NOT NULL,
-  `username` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `department` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `feedback` text COLLATE utf8_unicode_ci NOT NULL,
-  `approve` enum('0','1') COLLATE utf8_unicode_ci NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+    $sql = $wpdb->query("CREATE TABLE IF NOT EXISTS feedback (
+  id int(11) NOT NULL auto_increment,
+  username varchar(25) NOT NULL,
+  phone varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  department varchar(255) NOT NULL,
+  feedback text  NOT NULL,
+  approve enum('0','1')  NOT NULL DEFAULT '0',
+  primary key (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
     if($sql){
         set_transient( 'fx-admin-notice', true, 5 );
@@ -188,6 +189,11 @@ function get_feed_back($type = false){
     $sql = $wpdb->get_results("SELECT * FROM feedback $where");
 
     if($sql){
+        $plugin_url = plugins_url().'/feedback';
+
+        $isAdmin = current_user_can('Administrator');
+
+        $results = "<script>var user = {url:'$plugin_url'}</script>";
 
         foreach ($sql as $item) {
             $id = $item->id;
@@ -196,7 +202,7 @@ function get_feed_back($type = false){
             $em = $item->email;
             $dp = ucwords($item->department);
             $fd = $item->feedback;
-            $date = date();//$item->fd_date;
+            $date = date("Y-m-d H:i:s");//$item->fd_date;
             $approve =  (int) $item->approve;
             $date = date("M d, Y",strtotime($date));
 
@@ -210,8 +216,15 @@ function get_feed_back($type = false){
 
                 $status = ($approve > 0) ? 'approved' : 'pending';
 
-                $action = "<span class='approved' style='color:green'><i class=\"glyphicon glyphicon-ok\"></i> Approve</span>";
-                if($approve > 0){
+                $action = "
+<span class='approval $id' style='color:green'>
+<i class=\"glyphicon glyphicon-ok\"></i> Approve</span>
+ 
+ <span class='delete full-left $id' style='color:brown'>
+  
+  <i class=\"glyphicon glyphicon-remove\"></i> Delete</span>
+";
+                if($approve > 0 && !$isAdmin){
                     $action = "";
                 }
 
@@ -240,8 +253,10 @@ function get_feed_back($type = false){
 
 											<span class=\"pull-right $status\" style='font-size:16px;'>
                                                 <span class=\"pull-left$status\">($status)</span>
-                                                <span class='reply' style='color:green'><i class=\"glyphicon glyphicon-share\"></i> Reply</span> 
-                                                <span class='delete full-left' style='color:brown'><i class=\"glyphicon glyphicon-remove\"></i> Delete</span>
+                                                
+<span class='reply $id' id='$user,$em' style='color:green'>
+<i class=\"glyphicon glyphicon-share\"></i> Reply</span> 
+
                                                 $action 
                                             </span>
                                                     
@@ -261,11 +276,12 @@ $pn
                                 </tr>";
             }
         }
-
         if($type){
             $result = "<ul id=\"recentcomments\">
 	$result
 </ul>";
+        }else{
+            $result .= $results;
         }
     }else{
         $result = 'No records found';

@@ -33,11 +33,11 @@ class Ajax{
             if(method_exists($this,$ac)){
                 $this->$ac();
             }else{
-                $this->error('0',"Error bad request");
+                $this->error('Error bad request',0);
             }
 
         }else{
-            $this->error('0',"Error bad request");
+            $this->error('Error bad request',0);
         }
     }
 
@@ -77,6 +77,65 @@ class Ajax{
 
         }else{
             $this->error('All fields are required');
+        }
+    }
+
+    public function approve_feedback(){
+        if(!empty($_POST['id'])){
+            $id = $_POST['id'];
+
+            $sql =  $this->db->update( 'feedback', array('approve'=>'1'),
+                array('id'=>$id));
+
+            if($sql){
+                $this->success("Feedback was successful approved!");
+            }else{
+                $this->error('Sorry something went wrong Please try again!');
+            }
+        }else{
+            $this->error('Sorry something went wrong Please try again!');
+        }
+    }
+
+    public function delete_feedback(){
+        if(!empty($_POST['id'])){
+            $id = $_POST['id'];
+
+            $sql =  $this->db->delete( 'feedback', array('id'=>$id));
+
+            if($sql){
+                $this->success("Feedback was successful deleted!");
+            }else{
+                $this->error('Sorry something went wrong Please try again!');
+            }
+        }else{
+            $this->error('Sorry something went wrong Please try again!');
+        }
+    }
+
+    public function reply_feedback(){
+        if(!empty($_POST['id'])){
+            $id = $_POST['id'];
+            $rep = htmlentities($_POST['rep']);
+            $user = preg_replace('#[^a-z0-9- ]#i','',$_POST['u']);
+            $email = preg_replace('#[^a-z0-9-@.]#i','',$_POST['e']);
+            $to = $email;
+            $subject = "RE: Darceramica Customer Support";
+            // Always set content-type when sending HTML email
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $message = "<p>Hello $user</p>
+                          <p>$rep</p>";
+
+            $mail =  mail($to,$subject,$message,$headers);
+
+            if($mail){
+                $this->success("Feedback was successful sent!");
+            }else{
+                $this->error('The reply could not be sent. Please try again!');
+            }
+        }else{
+            $this->error('Sorry something went wrong Please try again!');
         }
     }
 

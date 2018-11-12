@@ -25,7 +25,6 @@
 
         $('#wpforms-form-6296').attr('autocomplete', 'off');
 
-        console.log(user);
 
         $('#wpforms-submit-6296').on('click',function () {
            var fn = $('#wpforms-6296-field_0').val(),
@@ -112,6 +111,101 @@
                }
               alert('All fields are required!');
           }
+        });
+
+
+        $('.delete').on('click',function(){
+            var id = (this.className.match(/\d+/g) !== null) ? this.className.match(/\d+/g).map(Number)[0] :'',h = $(this);
+            $(this).text('Please wait....');
+
+            $.ajax({
+                url:user.url+'/includes/Ajax.php',
+                type:'post',
+                data:{action:'delete_feedback',id:id},
+                success:function(va){
+                    var result = JSON.parse(va);
+
+                    if(typeof result.error !== 'undefined'){
+                        $(h).text('Delete');
+                        alert(result.error);
+                        return false;
+                    }
+
+                    alert(result.success);
+                    window.location.reload(true);
+                }
+            });
+        });
+
+
+        $('.reply').on('click',function(){
+            var id = (this.className.match(/\d+/g) !== null) ? this.className.match(/\d+/g).map(Number)[0] :'',
+                u = this.id.split(',');
+
+            var m = $('#exampleModal');
+            m.modal();
+
+            m.find('.modal-title').text('Reply');
+            m.find('#recipient-name').val(u[0]+' <'+u[1]+'>');
+
+            m.find('.send').on('click',function(){
+                var rep = m.find('#message-text').val();
+
+                if(rep !== ''){
+                    $(this).text('Please wait....');
+                    var h = $(this);
+                    $.ajax({
+                        url:user.url+'/includes/Ajax.php',
+                        type:'post',
+                        data:{action:'reply_feedback',id:id,reply:rep,u:u[0],e:u[1]},
+                        success:function(va){
+
+                            var result = JSON.parse(va);
+
+
+                            if(typeof result.error !== 'undefined'){
+                                $(h).text('send');
+                                alert(result.error);
+                                return false;
+                            }
+
+
+                            m.find('#message-text').val('');
+                            alert(result.success);
+                            window.location.reload(true);
+                        }
+                    });
+                }else{
+                    alert('Reply field is required!');
+                }
+
+            });
+        });
+
+
+        $('.approval').on('click',function(){
+            var id = (this.className.match(/\d+/g) !== null) ? this.className.match(/\d+/g).map(Number)[0] : '',h = $(this);
+            $(this).text('Please wait....');
+            $.ajax({
+                url:user.url+'/includes/Ajax.php',
+                type:'post',
+                data:{action:'approve_feedback',id:id},
+                success:function(va){
+
+                    var result = JSON.parse(va);
+
+                    if(typeof result.error !== 'undefined'){
+                        $(h).text('Approve');
+                        alert(result.error);
+                        return false;
+                    }else{
+                        alert(result.success);
+                        window.location.reload(true);
+                    }
+
+
+                }
+            });
         });
     });
 })(jQuery);
