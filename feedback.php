@@ -9,6 +9,14 @@
  * @package: wp-feedback
  */
 
+
+header("Content-Type: application/json");
+header("Expires: 0");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 $url = $_SERVER['SERVER_NAME'];
 $url = (preg_match('/localhost/',$url)) ? 'electrician' : '';
 
@@ -107,16 +115,16 @@ function form(){
     <label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_2_4\">Other</label></li>
     </ul>
     </div>
+    <label class=\"wpforms-field-label\" for=\"wpforms-6296-field_9\">Showroom <span class=\"wpforms-required-label\">*</span></label><ul id=\"wpforms-6296-field_9\" class=\"wpforms-randomize wpforms-field-required\"><li class=\"choice-7 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_7\" name=\"wpforms[fields][9]\" value=\"INDIA STREET\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_7\">INDIA STREET</label></li><li class=\"choice-9 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_9\" name=\"wpforms[fields][9]\" value=\"MBEYA\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_9\">MBEYA</label></li><li class=\"choice-10 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_10\" name=\"wpforms[fields][9]\" value=\"DODOMA\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_10\">DODOMA</label></li><li class=\"choice-11 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_11\" name=\"wpforms[fields][9]\" value=\"MOSHI\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_11\">MOSHI</label></li><li class=\"choice-13 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_13\" name=\"wpforms[fields][9]\" value=\"ARUSHA\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_13\">ARUSHA</label></li><li class=\"choice-5 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_5\" name=\"wpforms[fields][9]\" value=\"MIKOCHENI\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_5\">MIKOCHENI</label></li><li class=\"choice-2 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_2\" name=\"wpforms[fields][9]\" value=\"KARIAKOO\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_2\">KARIAKOO</label></li><li class=\"choice-8 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_8\" name=\"wpforms[fields][9]\" value=\"MWANZA\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_8\">MWANZA</label></li><li class=\"choice-6 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_6\" name=\"wpforms[fields][9]\" value=\"MBEZI\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_6\">MBEZI</label></li><li class=\"choice-3 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_3\" name=\"wpforms[fields][9]\" value=\"NASRA TOWER\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_3\">NASRA TOWER</label></li><li class=\"choice-4 depth-1\"><input type=\"radio\" id=\"wpforms-6296-field_9_4\" name=\"wpforms[fields][9]\" value=\"KAWE\" required=\"\" aria-required=\"true\"><label class=\"wpforms-field-label-inline\" for=\"wpforms-6296-field_9_4\">KAWE</label></li></ul><div class=\"wpforms-field-description\">Where did this happen?</div>
     <div id=\"wpforms-6296-field_4-container\" class=\"wpforms-field wpforms-field-textarea\" data-field-id=\"4\">
     <label class=\"wpforms-field-label\" for=\"wpforms-6296-field_4\">Your Feedback <span class=\"wpforms-required-label\">*</span></label>
     <textarea id=\"wpforms-6296-field_4\" class=\"wpforms-field-medium wpforms-field-required\" name=\"wpforms[fields][4]\" required=\"\" aria-required=\"true\"></textarea>
     </div>
     </div>
+    
+    
     <div class=\"wpforms-field wpforms-field-hp\">
     <div class=\"wpforms-submit-container\">
-    <input type=\"hidden\" name=\"wpforms[id]\" value=\"6296\">
-    <input type=\"hidden\" name=\"wpforms[author]\" value=\"1\">
-    <input type=\"hidden\" name=\"wpforms[post_id]\" value=\"6285\">
     <button type=\"submit\" name=\"wpforms[submit]\" class=\"wpforms-submit \" id=\"wpforms-submit-6296\" value=\"wpforms-submit\" data-alt-text=\"Sending...\">Submit</button>
     </div>
     </form>
@@ -136,6 +144,8 @@ function db_install(){
   email varchar(255) NOT NULL,
   department varchar(255) NOT NULL,
   feedback text  NOT NULL,
+  showrooms VARCHAR(255) null ,
+  feed_date DATETIME NOT NULL DEFAULT NOW() ,
   approve enum('0','1')  NOT NULL DEFAULT '0',
   primary key (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
@@ -183,7 +193,7 @@ function fb_uninstall(){
 function get_feed_back($type = false){
     global $wpdb;
     $result = '';
-    $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC LIMIT 5" : "";
+    $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC LIMIT 5" : " ORDER BY id DESC";
 
 
     $sql = $wpdb->get_results("SELECT * FROM feedback $where");
@@ -202,7 +212,8 @@ function get_feed_back($type = false){
             $em = $item->email;
             $dp = ucwords($item->department);
             $fd = $item->feedback;
-            $date = date("Y-m-d H:i:s");//$item->fd_date;
+            $date = $item->feed_date;
+            $showrooms = $item->showrooms;
             $approve =  (int) $item->approve;
             $date = date("M d, Y",strtotime($date));
 
@@ -220,9 +231,6 @@ function get_feed_back($type = false){
 <span class='approval $id' style='color:green'>
 <i class=\"glyphicon glyphicon-ok\"></i> Approve</span>
  
- <span class='delete full-left $id' style='color:brown'>
-  
-  <i class=\"glyphicon glyphicon-remove\"></i> Delete</span>
 ";
                 if($approve > 0 && !$isAdmin){
                     $action = "";
@@ -258,6 +266,10 @@ function get_feed_back($type = false){
 <i class=\"glyphicon glyphicon-share\"></i> Reply</span> 
 
                                                 $action 
+
+ <span class='delete full-left $id' style='color:brown'>
+  
+  <i class=\"glyphicon glyphicon-remove\"></i> Delete</span>
                                             </span>
                                                     
 
@@ -266,7 +278,7 @@ function get_feed_back($type = false){
 $pn 
 							<span class='pull-right' style='margin-left:10px;'>
                                     $em</span>
-                                                <p class=\"summary\">$dp</p>
+                                                <p class=\"summary\">$dp - $showrooms</p>
                                                 <p class=\"summary dep\">$fd</p>
                                             </div>
                                         </div>

@@ -41,28 +41,30 @@ class Ajax{
         }
     }
 
-
     public function dofeedback(){
 
-        if($_POST['fn'] !== ''
-            && $_POST['ln'] !== ''
-            && $_POST['em'] !== ''
-            && $_POST['pn'] !== ''
-            && $_POST['dp'] !== ''
-            && $_POST['fd'] !== ''){
+        if(!empty($_POST['fn'])
+            && !empty($_POST['ln'])
+            && !empty($_POST['em'])
+            && !empty($_POST['pn'])
+            && !empty($_POST['dp'])
+            && !empty($_POST['fd'])){
 
             $fn = sanitize_user($_POST['fn']);
             $ln = sanitize_user($_POST['ln']);
             $pn = sanitize_text_field($_POST['pn']);
             $em = sanitize_email($_POST['em']);
+            $s = sanitize_text_field($_POST['s']);
             $dp = sanitize_text_field($_POST['dp']);
-            $fd = sanitize_textarea_field($_POST['fb']);
-
+            $fd = sanitize_textarea_field($_POST['fd']);
+            $d = date("Y-m-d H:i:s");
+            $d = date("Y-m-d H:i:s",strtotime($d));
 
             $sql = $this->db->insert('feedback',array(
                 'username'=>$fn.' '.$ln,
                 'phone'=>$pn,
                 'email'=>$em,
+                'showrooms'=>$s,
                 'department'=>$dp,
                 'feedback'=>$fd));
 
@@ -76,7 +78,7 @@ class Ajax{
             }
 
         }else{
-            $this->error('All fields are required');
+            $this->error('All fields are required!');
         }
     }
 
@@ -118,16 +120,17 @@ class Ajax{
             $id = $_POST['id'];
             $rep = htmlentities($_POST['rep']);
             $user = preg_replace('#[^a-z0-9- ]#i','',$_POST['u']);
-            $email = preg_replace('#[^a-z0-9-@.]#i','',$_POST['e']);
-            $to = $email;
-            $subject = "RE: Darceramica Customer Support";
-            // Always set content-type when sending HTML email
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $message = "<p>Hello $user</p>
-                          <p>$rep</p>";
+            $email = htmlentities($_POST['e']);
 
-            $mail =  mail($to,$subject,$message,$headers);
+
+            $to = $email;
+            $from = "info@darceramica";
+            $subject = "RE: Darceramica Support";
+            $headers = "From: ".$from."\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+            $message = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Darceramica message</title></head><body style='margin:0px; font-family:Tahoma, Geneva, sans-serif;'><div style='padding:10px; background:#BA5370;background:linear-gradient(to right,#BA5370,#BA5370); font-size:24px; color:#fff; width: 100%;height: auto;display: inline-block;'><a href='".$this->link."'><img src='http://darceramica.co.tz/wp-content/uploads/2017/08/Dar-Ceramica_logo.png' alt='darceramica' style='border:none; width:auto;height:90px; display:inline-block; float:left;'></a><br> Darceramica Support</div><div style='padding:24px; font-size:17px;'><b style='color: #BA5370;'>Hello [ ".$user." ]</b><br /><br />$rep</div></body></html>";
+            $mail = @mail($to, $subject, $message, $headers);
 
             if($mail){
                 $this->success("Feedback was successful sent!");
@@ -136,6 +139,20 @@ class Ajax{
             }
         }else{
             $this->error('Sorry something went wrong Please try again!');
+        }
+    }
+
+    public function addColumn(){
+        if(isset($_POST['col']) && !empty($_POST['col'])){
+            $c = htmlentities($_POST['col']);
+
+            $result = $this->db->query("ALTER TABLE feedback ADD COLUMN $c");
+
+            if($result){
+                $this->success("Column created!");
+            }else{
+                $this->error('Column could not be created!');
+            }
         }
     }
 
@@ -151,7 +168,6 @@ class Ajax{
     private function success($success){
         echo $this->response(array('success'=>$success));
     }
-
 
     public function response($r){
         return json_encode($r);
