@@ -27,7 +27,7 @@ global $wpdb;
                         </div>
                         <div class="table-container">
                             <table class="table table-filter">
-                                <tbody>
+                                <tbody class="post-container">
                                 <?php echo get_feed_back();?>
                                 </tbody>
                             </table>

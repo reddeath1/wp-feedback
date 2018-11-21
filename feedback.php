@@ -190,10 +190,41 @@ function fb_uninstall(){
     //db_uninstall();
 }
 
+function count_feedback($type = false){
+    global $wpdb;
+    $result = '';
+    $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC" : " ORDER BY id DESC";
+
+
+    $sql = $wpdb->get_results("SELECT count(id) as c FROM feedback $where");
+
+    if($sql){
+        foreach ($sql as $item) {
+            $result = (int) $item->c;
+        }
+
+    }
+
+    return $result;
+}
+
 function get_feed_back($type = false){
     global $wpdb;
     $result = '';
-    $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC LIMIT 5" : " ORDER BY id DESC";
+    $rows = count_feedback($type);
+
+    $limit_page = ($type) ? 5 : 15;
+    $last = ceil($rows/$limit_page);
+    $page = 1;
+
+    if($last < 1){
+        $last = 1;
+    }
+
+    $controls = '';
+
+
+    $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC LIMIT ".($page-1) * $limit_page.", $limit_page" : " ORDER BY id DESC LIMIT ".($page-1) * $limit_page.", $limit_page";
 
 
     $sql = $wpdb->get_results("SELECT * FROM feedback $where");
@@ -312,7 +343,25 @@ $pn
         }
     }
 
-    return $result;
+    if ($last != 1) {
+        $cn = ($type) ? '#recentcomments':'.post-container';
+        $type = ($type) ? 'home':'admin';
+        $controls = '';
+        if ($page > 1) {
+            $controls = "<button class='btn btn-block btn-round' onclick=\"pageNation(".($page -1).",$last,$limit_page,'$cn','$type');\">&lt;</button>";
+        }
+
+        $controls .= "&nbsp;&nbsp; <b class='page-count-status'> Page $page of $last </b> &nbsp;&nbsp;";
+
+        if ($page != $last) {
+
+            $controls .= "<button class='btn btn-block btn-round' onclick=\"pageNation(".($page+1).",$last,$limit_page,'$cn','$type');\">&gt;</button>";
+        }
+
+        $controls ="<div id=\"page-controller\">$controls</div>";
+    }
+
+    return $result.$controls;
 }
 
 add_action( 'admin_menu', 'fb_add_menu' );

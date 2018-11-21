@@ -187,7 +187,8 @@
 
                             m.find('#message-text').val('');
                             alert(result.success);
-                            window.location.reload(true);
+                            m.modal('hide');
+                            //window.location.reload(true);
                         }
                     });
                 }else{
@@ -250,3 +251,50 @@ addColumn = function(data){
         });
     })(jQuery);
 };
+
+pageNation = function(page,last,limit,container,type){
+
+    (function($){
+        var img = "<img src='"+user.url+"/images/svg.svg' style='height: 100px;'/>";
+        $(container).html(img);
+        //ajax
+        $.ajax({
+            url:user.url+'/includes/Ajax.php',
+            type:'post',
+            data:{action:'pagenate',page:page,last:last,limit:limit,type:type},
+            success:function(va){
+                var result = JSON.stringify(va);
+                result = JSON.parse(result);
+
+                if(typeof result.error !== 'undefined'){
+                    alert(result.error);
+                    return false;
+                }
+
+                console.log($(container));
+
+                $(container).html(result.success);
+            }
+        });
+
+        var pcontrols = "";
+        if (last !== 1) {
+            var cn = container,
+                t = type;
+            if (page > 1) {
+                pcontrols = "<button class='btn btn-block btn-round' onclick=\"pageNation("+(page-1)+","+last+","+limit+",'"+cn+"','"+t+"');\">&lt;</button>";
+            }
+
+            pcontrols += "&nbsp;&nbsp; <b> Page "+page+" of "+last+" </b> &nbsp;&nbsp;";
+
+            if (page !== last) {
+
+                pcontrols += "<button class='btn btn-block btn-round' onclick=\"pageNation("+(page+1)+","+last+","+limit+",'"+cn+"','"+t+"');\">&gt;</button>";
+            }
+
+            $('#page-controller').html(pcontrols);
+        }
+    })(jQuery);
+
+}
+;

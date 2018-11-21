@@ -142,6 +142,168 @@ class Ajax{
         }
     }
 
+    private function count_feedback($type = false){
+        $result = '';
+        $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC" : " ORDER BY id DESC";
+
+
+        $sql = $this->db->get_results("SELECT count(id) as c FROM feedback $where");
+
+        if($sql){
+            foreach ($sql as $item) {
+                $result = (int) $item->c;
+            }
+
+        }
+
+        return $result;
+    }
+
+    public function pagenate(){
+        $type = htmlentities($_POST['type']);
+        $page = preg_replace('#[^0-9]#','',$_POST['page']);
+        $last = preg_replace('#[^0-9]#','',$_POST['last']);
+        $limit_page = preg_replace('#[^0-9]#','',$_POST['limit']);
+
+        $result = '';
+        $error = '';
+        $type = ($type === 'home') ? true : false;
+        $rows = $this->count_feedback($type);
+
+        if($page < 1){
+            $page = 1;
+        }else if($page > $last){
+            $page = $last;
+        }
+
+        $controls = '';
+
+        $where = ($type) ? "WHERE approve = '1' ORDER BY id DESC LIMIT ".($page-1) * $limit_page.", $limit_page" : " ORDER BY id DESC LIMIT ".($page-1) * $limit_page.", $limit_page";
+
+        $sql = $this->db->get_results("SELECT * FROM feedback $where");
+
+        if($sql){
+            $plugin_url = plugins_url().'/feedback';
+
+            $isAdmin = current_user_can('Administrator');
+
+            $results = "<script>var user = {url:'$plugin_url'}</script>";
+
+            foreach ($sql as $item) {
+                $id = $item->id;
+                $user = ucwords($item->username);
+                $pn = $item->phone;
+                $em = $item->email;
+                $dp = ucwords($item->department);
+                $fd = $item->feedback;
+                $date = $item->feed_date;
+                $showrooms = $item->showrooms;
+                $approve =  (int) $item->approve;
+                $date = date("M d, Y",strtotime($date));
+
+
+                if($type){
+                    $result .= "
+                            <li class=\"recentcomments\">
+                            <span class=\"comment-author-link\">$user</span> - 
+                            <a >$fd</a></li>";
+                }else{
+
+                    $status = ($approve > 0) ? 'approved' : 'pending';
+
+                    $action = "
+<span class='approval $id' style='color:green'>
+<i class=\"glyphicon glyphicon-ok\"></i> Approve</span>
+ 
+";
+                    if($approve > 0 && !$isAdmin){
+                        $action = "";
+                    }
+
+                    $result .= "<tr data-status=\"$status\">
+                                    <td>
+                                        <div class=\"ckbox\">
+                                            <input type=\"checkbox\" id=\"checkbox$id\">
+                                            <label for=\"checkbox$id\"></label>
+                                        </div>
+                                    </td>
+                                        <a href=\"javascript:;\" class=\"star\">
+                                    <td>
+                                            <i class=\"glyphicon glyphicon-star\"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class=\"media\">
+                                            <a href=\"#\" class=\"pull-left\">
+                                                <img src=\"https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg\" class=\"media-photo\">
+                                            </a>
+                                            <div class=\"media-body\">
+												
+                                                <h4 class=\"title\">
+                                                    $user 
+                                                <span class=\"media-meta pull-right\" style='margin-left:10px;'> $date</span>
+
+											<span class=\"pull-right $status\" style='font-size:16px;'>
+                                                <span class=\"pull-left$status\">($status)</span>
+                                                
+<span class='reply $id' id='$user,$em' style='color:green'>
+<i class=\"glyphicon glyphicon-share\"></i> Reply</span> 
+
+                                                $action 
+
+ <span class='delete full-left $id' style='color:brown'>
+  
+  <i class=\"glyphicon glyphicon-remove\"></i> Delete</span>
+                                            </span>
+                                                    
+
+												
+                                                </h4>
+$pn 
+							<span class='pull-right' style='margin-left:10px;'>
+                                    $em</span>
+                                                <p class=\"summary\">$dp - $showrooms</p>
+                                                <p class=\"summary dep\">$fd</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+</td>
+                                </tr>";
+                }
+            }
+            if($type){
+                $result = "<ul id=\"recentcomments\">
+	$result
+</ul>";
+            }else{
+                $result .= $results;
+            }
+        }else{
+            $error = 'No records found';
+            if($type){
+                $error = "<ul id=\"recentcomments\">
+                            <li class=\"recentcomments\">
+                            $error
+                            </li>
+                            </ul>";
+            }else{
+                $error = "<tr>
+                            <td>
+                                $error
+                            </td>
+                        </tr>";
+            }
+        }
+
+
+        if(!empty($result)){
+            $this->success($result);
+        }else{
+            $this->error($error);
+        }
+    }
+
     public function addColumn(){
         if(isset($_POST['col']) && !empty($_POST['col'])){
             $c = htmlentities($_POST['col']);
