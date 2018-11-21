@@ -282,14 +282,14 @@ pageNation = function(page,last,limit,container,type){
             var cn = container,
                 t = type;
             if (page > 1) {
-                pcontrols = "<button class='btn btn-block btn-round' onclick=\"pageNation("+(page-1)+","+last+","+limit+",'"+cn+"','"+t+"');\">&lt;</button>";
+                pcontrols = "<button class='btn btn-block btn-round' style='width:auto;float:left;' onclick=\"pageNation("+(page-1)+","+last+","+limit+",'"+cn+"','"+t+"');\">&lt;</button>";
             }
 
             pcontrols += "&nbsp;&nbsp; <b> Page "+page+" of "+last+" </b> &nbsp;&nbsp;";
 
             if (page !== last) {
 
-                pcontrols += "<button class='btn btn-block btn-round' onclick=\"pageNation("+(page+1)+","+last+","+limit+",'"+cn+"','"+t+"');\">&gt;</button>";
+                pcontrols += "<button class='btn btn-block btn-round' style='width:auto;display:inline-block' onclick=\"pageNation("+(page+1)+","+last+","+limit+",'"+cn+"','"+t+"');\">&gt;</button>";
             }
 
             $('#page-controller').html(pcontrols);

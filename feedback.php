@@ -348,14 +348,14 @@ $pn
         $type = ($type) ? 'home':'admin';
         $controls = '';
         if ($page > 1) {
-            $controls = "<button class='btn btn-block btn-round' onclick=\"pageNation(".($page -1).",$last,$limit_page,'$cn','$type');\">&lt;</button>";
+            $controls = "<button class='btn btn-block btn-round' style='width:auto;float:left;' onclick=\"pageNation(".($page -1).",$last,$limit_page,'$cn','$type');\">&lt;</button>";
         }
 
         $controls .= "&nbsp;&nbsp; <b class='page-count-status'> Page $page of $last </b> &nbsp;&nbsp;";
 
         if ($page != $last) {
 
-            $controls .= "<button class='btn btn-block btn-round' onclick=\"pageNation(".($page+1).",$last,$limit_page,'$cn','$type');\">&gt;</button>";
+            $controls .= "<button class='btn btn-block btn-round' style='width:auto;display:inline-block' onclick=\"pageNation(".($page+1).",$last,$limit_page,'$cn','$type');\">&gt;</button>";
         }
 
         $controls ="<div id=\"page-controller\">$controls</div>";
